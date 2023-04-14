@@ -104,8 +104,9 @@ public class FileManager {
 			} else {
 				succ.saveFileContent(filename, replicafiles[i], bytesOfFile, false);
 			}
+			// increment counter
+			counter++;
 		}
-    	// increment counter
 		return counter;
     }
 	
