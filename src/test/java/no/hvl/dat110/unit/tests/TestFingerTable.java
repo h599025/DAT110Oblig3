@@ -33,9 +33,9 @@ class TestFingerTable {
 
 	@Test
 	void testFixFingerTable() throws RemoteException {
-		
+
 		NodeInterface process1 = Util.getProcessStub("process1", 9091);
-		
+
 		List<String> fingerTableActual = new ArrayList<>();
 		List<NodeInterface> fingers = process1.getFingerTable();
 		for(int i=0; i<fingers.size(); i++) {

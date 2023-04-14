@@ -31,9 +31,9 @@ public class Util {
 	 * To use this method to compute (lower < id <= upper), ensure that the calling method increased the lower param by 1.
 	 * To use this method to compute (lower <= id < upper), ensure that the calling method increased the upper param by 1.
 	 * To use this method to compute (lower < id < upper), ensure that the calling method increased both the lower and upper params by 1.
-	 * @param id
-	 * @param lower
-	 * @param upper
+	 *
+	 *
+	 *
 	 * @return true if (lower <= id <= upper) or false otherwise
 	 */
 	public static boolean checkInterval(BigInteger id, BigInteger lower, BigInteger upper) {
@@ -44,9 +44,31 @@ public class Util {
 		// if id = 9, then (6 < 9 <= 2) = true
 		
 		// Task: given an identifier, id: check whether pred < id <= node
-		
-		return false;
 
+		// Check if the interval is contiguous or split
+		BigInteger addressSize = Hash.addressSize();
+
+		BigInteger idMod = id.mod(addressSize);
+
+		BigInteger lowerMod = lower.mod(addressSize);
+
+		BigInteger upperMod = upper.mod(addressSize);
+
+		if (lowerMod.compareTo(upperMod) > 0) { // lower > upper
+			// lower <= id <= upper blir til:
+			// lower <= id < asize || 0 <= id <= upper blir til
+			// (lower <= id && id < asize) || (0 <= id && id <= upper)
+			return (lowerMod.compareTo(idMod) <= 0 && idMod.compareTo(addressSize) < 0)
+					|| (BigInteger.valueOf(0).compareTo(idMod) <= 0 && idMod.compareTo(upperMod) <= 0);
+		}
+		else if (lowerMod.compareTo(upperMod) < 0) {
+			// Sjekker om lower <= id <= upper blir til
+			// lower <= id && id <= upper
+			return lowerMod.compareTo(idMod) <= 0 && idMod.compareTo(upperMod) <= 0;
+		}
+		else {
+			return lowerMod.compareTo(idMod) == 0;
+		}
 	}
 	
 	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
